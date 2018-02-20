@@ -2,10 +2,10 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/classes" isTestSource="false" packagePrefix="app\" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/monolog/monolog" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
+      <sourceFolder url="file://$MODULE_DIR$/betting/classes" isTestSource="false" packagePrefix="app\" />
+      <excludeFolder url="file://$MODULE_DIR$/betting/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/betting/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/betting/vendor/psr/log" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
