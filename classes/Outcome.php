@@ -24,7 +24,7 @@ class Outcome
 
 
         } else {
-           $this->lose();
+            $this->lose();
         }
     }
 
@@ -51,14 +51,13 @@ class Outcome
 
     public function win()
     {
-        $mysqli = db::getConnection();
-//        $query = "SELECT game_name FROM game WHERE game_id = $value2";
+
 
         $gamePrice = intval($_GET['gamePrice']);
         $gameBenefit = intval($_GET['gameBenefit']);
 
 
-            echo '<h1 class="text-center"><span>You Win</span></h1>
+        echo '<h1 class="text-center"><span>You Win</span></h1>
                     <h4>Game Played: ' . $this->getGameName() . '</h4>
                     <h4>Bet Amount: ' . $this->getAmountInvested() . '</h4> <div class="mt-5 p-2">
                                 <div class="modal-footer">
@@ -67,21 +66,23 @@ class Outcome
                     <button type="submit" class="btn btn-danger" onClick="document.location.href=\'index.php\'">Close</button>
                     </div></div>';
 
-        $total = $this->getAmountInvested() + (($gameBenefit/100)*$gamePrice);
+        $total = $this->getAmountInvested() + (($gameBenefit / 100) * $gamePrice);
 
-        echo '<p>Your total balance is now: '. $total. '</p>';
+        echo '<p>Your total balance is now: ' . $total . '</p>';
 
-
+        $mysqli = db::getConnection();
+        $query = "UPDATE balance SET amount=$total WHERE user_id=2";
+        if (mysqli_query($mysqli, $query)) {
+            return true;
+        } else {
+            echo 'error';
+        }
 
     }
 
     public function lose()
     {
-
-        $mysqli = db::getConnection();
-//        $query = "INSERT INTO ";
-
-            echo '<h1 class="text-center"><span>You Lose</span></h1>
+        echo '<h1 class="text-center"><span>You Lose</span></h1>
                     <h4>Game Played: ' . $this->getGameName() . '</h4>
                     <h4>Bet Amount: ' . $this->getAmountInvested() . '</h4> <div class="mt-5 p-2">
                                                     <div class="modal-footer">
@@ -89,25 +90,16 @@ class Outcome
                     <button type="submit" class="btn btn-danger" onClick="document.location.href=\'index.php\'">Close</button>
                     </div></div>';
 
-            $total = $this->getAmountInvested() -$this->getAmountInvested();
-        echo '<p>Your total balance is now: '. $total. '</p>';
-    }
+        $total = $this->getAmountInvested() - $this->getAmountInvested();
+        echo '<p>Your total balance is now: ' . $total . '</p>';
 
-    public function getBetId(){
         $mysqli = db::getConnection();
-        $value2 = intval($_GET['gameId']);
-
-        $query2 = "SELECT bet_id FROM bets WHERE user_id=2 AND game_id=$value2";
-
-
-        $result = mysqli_query($mysqli, $query2);
-        while ($row = mysqli_fetch_row($result)) {
-            $this->num_rows = mysqli_num_rows($result);
-            echo '<br>';
-            echo $row[0];
+        $query = "UPDATE balance SET amount=$total WHERE user_id=2";
+        if (mysqli_query($mysqli, $query)) {
+            return true;
+        } else {
+            echo 'error';
         }
-
-
     }
 
 

@@ -83,8 +83,10 @@ $outcome = new Outcome();
             <button type="submit" data-toggle="modal" data-target="#modalOutcome" id="next" class="next">Play</button>
 
             <?php
-            $bet->saveBet();
+//            $bet->saveBet();
             $balance->getAmount();
+//            $bet->getBetId();
+//            $bet->BetId();
 
 
             ?>
