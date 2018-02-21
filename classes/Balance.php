@@ -27,10 +27,27 @@ class Balance
             } else {
                 echo 'error';
             }
-return true;
+            return true;
         }
 
 
+    }
+
+
+    /**
+     * get to know the current balance from table balance where user_id = user_id
+     */
+    public function currentBalance()
+    {
+        $mysqli = db::getConnection();
+        $query2 = "SELECT amount FROM balance WHERE user_id=2";
+
+        $result = mysqli_query($mysqli, $query2);
+        while ($row = mysqli_fetch_row($result)) {
+            echo '<br>';
+            $var = $row[0];
+            echo "balance is " . $var;
+        }
 
     }
 

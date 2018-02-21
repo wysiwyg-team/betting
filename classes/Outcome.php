@@ -51,6 +51,8 @@ class Outcome
 
     public function win()
     {
+        $bet = new confirmBet(db::getConnection());
+        $arg = $bet->getBetId();
 
 
         $gamePrice = intval($_GET['gamePrice']);
@@ -71,7 +73,7 @@ class Outcome
         echo '<p>Your total balance is now: ' . $total . '</p>';
 
         $mysqli = db::getConnection();
-        $query = "UPDATE balance SET amount=$total WHERE user_id=2";
+        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id IN ($arg)";
         if (mysqli_query($mysqli, $query)) {
             return true;
         } else {
@@ -82,6 +84,9 @@ class Outcome
 
     public function lose()
     {
+        $bet = new confirmBet(db::getConnection());
+        $arg = $bet->getBetId();
+
         echo '<h1 class="text-center"><span>You Lose</span></h1>
                     <h4>Game Played: ' . $this->getGameName() . '</h4>
                     <h4>Bet Amount: ' . $this->getAmountInvested() . '</h4> <div class="mt-5 p-2">
@@ -94,13 +99,14 @@ class Outcome
         echo '<p>Your total balance is now: ' . $total . '</p>';
 
         $mysqli = db::getConnection();
-        $query = "UPDATE balance SET amount=$total WHERE user_id=2";
+        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id IN ($arg)";
         if (mysqli_query($mysqli, $query)) {
             return true;
         } else {
             echo 'error';
         }
     }
+
 
 
 }

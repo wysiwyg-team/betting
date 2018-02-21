@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 /**
  * Created by PhpStorm.
  * User: Cathy ICD
@@ -8,15 +10,25 @@
 
 use app\Balance;
 use app\confirmBet;
+use app\db;
 use app\Outcome;
-
+use app\User;
 include 'vendor/autoload.php';
 
 $balance = new Balance();
-$bet = new confirmBet();
+$bet = new confirmBet(db::getConnection());
 $outcome = new Outcome();
+$user = new User();
 
+$user_id = $_SESSION['user_id'];
+if (!$user->get_session()){
+    header("location:login.php");
+}
 
+if (isset($_GET['q'])){
+    $user->logout();
+    header("location:login.php");
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -76,17 +88,18 @@ $outcome = new Outcome();
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p>your bet has been confirmed.. click play to continue</p>
+            <p>The game has been played. Click to view results</p>
             <span id="spinner"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
 
-
-            <button type="submit" data-toggle="modal" data-target="#modalOutcome" id="next" class="next">Play</button>
+            <button type="submit" data-toggle="modal" data-target="#modalOutcome" id="next" class="next">View Results</button>
 
             <?php
-//            $bet->saveBet();
-            $balance->getAmount();
-//            $bet->getBetId();
-//            $bet->BetId();
+            $bet->saveBet();
+//            $balance->getAmount();
+
+            $bet->saveBetAmount();
+            $bet->getBetId();
+
 
 
             ?>
@@ -102,9 +115,7 @@ $outcome = new Outcome();
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Game Outcome</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+
             </div>
             <div class="modal-body">
                 <?php
@@ -125,6 +136,11 @@ $outcome = new Outcome();
     $(document).ready(function () {
         $("#spinner").hide();
 
+        $('#modalOutcome').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+
         $(".next").click(function () {
             $(".container").hide(800);
 
@@ -134,6 +150,10 @@ $outcome = new Outcome();
             //}, 5000);
         });
     });
+
+
+
+
 </script>
 </body>
 </html>

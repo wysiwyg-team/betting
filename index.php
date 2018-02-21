@@ -6,12 +6,24 @@
  * Time: 8:13 AM
  */
 
+session_start();
+include 'vendor/autoload.php';
 use app\User;
 
-include 'vendor/autoload.php';
-session_start();
-
 $user = new User();
+
+
+$user_id = $_SESSION['user_id'];
+if (!$user->get_session()){
+ header("location:login.php");
+}
+
+if (isset($_GET['q'])){
+ $user->logout();
+ header("location:login.php");
+ }
+
+
 
 
 
@@ -71,7 +83,7 @@ $user = new User();
                     <a class="nav-link" href="games.php">Games</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="index.php?q=logout">LOGOUT</a>
                 </li>
             </ul>
         </div>

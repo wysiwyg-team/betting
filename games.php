@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 /**
  * Created by PhpStorm.
  * User: Ankush
@@ -8,14 +10,32 @@
 include 'config.php';
 use app\Balance;
 use app\confirmBet;
+use app\db;
 use app\Games;
 
 include 'vendor/autoload.php';
+use app\User;
 
 
 $games = new Games();
 $balance = new Balance();
-$bet = new confirmBet();
+$bet = new confirmBet(db::getConnection());
+$user = new User();
+
+
+$user_id = $_SESSION['user_id'];
+if (!$user->get_session()){
+    header("location:login.php");
+}
+
+if (isset($_GET['q'])){
+    $user->logout();
+    header("location:login.php");
+}
+
+
+
+
 
 ?>
 

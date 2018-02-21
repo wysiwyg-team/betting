@@ -1,23 +1,23 @@
 <?php
+session_start();
+
 /**
  * Created by PhpStorm.
  * User: Ankush
  * Date: 2/9/2018
  * Time: 8:13 AM
  */
-
-use app\User;
-
 include 'vendor/autoload.php';
 
-
-session_start();
+use app\User;
 $user = new User();
+
+
 if (isset($_REQUEST['submit'])) {
     extract($_REQUEST);
-    $login = $user->login($username, $password);
+    $login = $user->check_login($username, $password);
     if ($login) {
-        header("Location:index.php");
+        header("location:index.php");
     } else {
         echo 'Wrong username or password';
     }
@@ -93,15 +93,14 @@ if (isset($_REQUEST['submit'])) {
     <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-5 text-center">Login</h1>
-            <form action="index.php" method="post">
+            <form action="" method="post" name="login">
                 <div class="form-group">
                     <label for="username">Name: </label>
-                    <input type="text" class="form-control" id="username" aria-describedby="username"
-                           placeholder="Enter Name">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Name">
                 </div>
                 <div class="form-group">
                     <label for="pwrd">Password</label>
-                    <input type="password" class="form-control" id="pwrd" placeholder="Password">
+                    <input type="password" class="form-control" id="pwrd" name="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
             </form>
