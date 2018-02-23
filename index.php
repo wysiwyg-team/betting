@@ -8,24 +8,22 @@
 
 session_start();
 include 'vendor/autoload.php';
+
+use app\favGames;
 use app\User;
 
 $user = new User();
-
+$favGames = new favGames();
 
 $user_id = $_SESSION['user_id'];
-if (!$user->get_session()){
- header("location:login.php");
+if (!$user->get_session()) {
+    header("location:login.php");
 }
 
-if (isset($_GET['q'])){
- $user->logout();
- header("location:login.php");
- }
-
-
-
-
+if (isset($_GET['q'])) {
+    $user->logout();
+    header("location:login.php");
+}
 
 
 ?>
@@ -39,25 +37,10 @@ if (isset($_GET['q'])){
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Betting HomePage</title>
-
     <!-- Bootstrap core CSS -->
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <style>
-        body {
-            padding-top: 54px;
-        }
-        @media (min-width: 992px) {
-            body {
-                padding-top: 56px;
-            }
-        }
-
-    </style>
-
+    <link href="assets/bootstrap/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -66,7 +49,8 @@ if (isset($_GET['q'])){
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="index.php">Betting</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -77,14 +61,15 @@ if (isset($_GET['q'])){
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Login</a>
+                    <a class="nav-link" href="index.php?q=logout">LOGOUT</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="games.php">Games</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?q=logout">LOGOUT</a>
+                    <a class="nav-link" href="#">Contact</a>
                 </li>
+
             </ul>
         </div>
     </div>
@@ -102,21 +87,80 @@ if (isset($_GET['q'])){
         <div class="col-6">
             <div class="bg-light">
                 <h2 class="text-center">Favourite Games</h2>
-                <div class="row">
-                    <div class="col-6">a</div>
-                    <div class="col-6">a</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">a</div>
-                    <div class="col-6">a</div>
-                </div>
+                <table class="table table-bordered" id="favGames">
+                    <thead>
+                    <tr>
+                        <th>
+                            Game Name
+                        </th>
+                        <th>
+                            Game Price
+                        </th>
+                        <th>
+                            Game Benefit
+                        </th>
+                        <th>
+                            Game Popularity
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="game in games">
+                        <td>
+                            {{game.gameName}}
+                        </td>
+                        <td>
+                            {{game.price}}
+                        </td>
+                        <td>
+                            {{game.benefit}}
+                        </td>
+                        <td>
+                            {{game.popularity}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
 
         <div class="col-6">
             <div class="bg-light">
                 <h2 class="text-center">Top Scorer</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="app">
+                    <thead>
+                    <tr>
+                        <th>
+                            outcomeid
+                        </th>
+                        <th>userid</th>
+                        <th>status</th>
+                        <th>score</th>
+                        <th>username</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="result in results">
+                        <td>
+                            {{result.outcomeID}}
+                        </td>
+
+                        <td>
+                            {{result.userID}}
+                        </td>
+                        <td>
+                            {{result.status}}
+                        </td>
+                        <td>
+                            {{result.score}}
+                        </td>
+                        <td>
+                            {{result.username}}
+                        </td>
+
+                    </tr>
+                    </tbody>
 
                 </table>
             </div>
@@ -127,8 +171,61 @@ if (isset($_GET['q'])){
 <!-- Bootstrap core JavaScript -->
 <script src="assets/jquery/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.js"></script>
+
+<script>
+
+    const jsonScore = "http://localhost/betting/betting/score.php";
+    const jsonGames = "http://localhost/betting/betting/favouriteGames.php";
+
+    const vueScore = new Vue({
+        el: '#app',
+        data: {
+            // results: [{"outcomeID":"1","userID":"2","status":"win","score":"50","username":"ankush"}]
+            results: []
+        },
+        methods: {
+            getResults: function () {
+                axios.get(jsonScore).then(response => {
+                    this.results = response.data
+                });
+            }
+        },
+        mounted() {
+            this.getResults();
+            setInterval(function () {
+                axios.get(jsonScore).then(response => {
+                    this.results = response.data;
+                });
+            }.bind(this), 5000);
+        }
+    });
+
+    const vueGames = new Vue({
+        el: '#favGames',
+        data: {
+            games: []
+        },
+        methods: {
+            getGames: function () {
+                axios.get(jsonGames).then(response => {
+                    this.games = response.data
+                });
+            }
+        },
+        mounted() {
+            this.getGames();
+            setInterval(function () {
+                axios.get(jsonGames).then(response => {
+                    this.games = response.data;
+                });
+            }.bind(this), 5000);
+        }
+    });
+</script>
 
 </body>
-
 </html>
 

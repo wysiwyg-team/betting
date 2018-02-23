@@ -1,6 +1,8 @@
 <?php
 namespace app;
 
+use mysqli_sql_exception;
+
 include 'vendor/autoload.php';
 
 class db
@@ -12,13 +14,18 @@ class db
     static $mysqli;
     static $instance = false;
 
+    /**
+     * db constructor.
+     */
     public function __construct()
     {
         self::setConnection();
         self::$instance = true;
     }
 
-
+    /**
+     * @return mixed
+     */
     public static function getConnection()
     {
         if (!self::$instance)
@@ -37,7 +44,6 @@ class db
         self::$mysqli = mysqli_connect(self::databaseHost, self::databaseUser, self::databasePassword, self::databaseName);
         /* check connection */
         if (mysqli_connect_errno()) {
-
             return new mysqli_sql_exception("cannot connect to DB :" . mysqli_connect_error());
         }
     }

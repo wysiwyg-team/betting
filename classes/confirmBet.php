@@ -11,14 +11,10 @@ namespace app;
 class confirmBet
 {
 
-
-//    public $gameId;
     public $instanceDB;
 
     /**
      * confirmBet constructor.
-     * @param $betId
-     * @param $gameId
      * @param $instanceDB
      */
     public function __construct($instanceDB)
@@ -26,16 +22,15 @@ class confirmBet
         $this->instanceDB = $instanceDB;
     }
 
-
+    /**
+     * @return bool
+     */
     public function saveBet()
     {
         $betAmount = intval($_GET['amount']);
-
         $gameId = intval($_GET['gameId']);
 
         $saveBet = "INSERT INTO bets (bet_amount,user_id,game_id) VALUES ($betAmount,2,$gameId)";
-//        $saveBalance = "INSERT INTO balance (amount,user_id) VALUES ($betAmount,2)";
-//        mysqli_query($this->instanceDB, $saveBalance);
 
         if (mysqli_query($this->instanceDB, $saveBet)) {
             return true;
@@ -44,15 +39,17 @@ class confirmBet
         }
     }
 
+
     /**
-     * get the bet id of the game played where user id = user id
+     * @return bool|string
+     * get the bet id where userid= userid and gameid=gameid
      */
     public function getBetId()
     {
         $gameId = intval($_GET['gameId']);
 
-        $query2 = "SELECT bet_id FROM bets WHERE user_id=2 AND game_id=$gameId";
-        $result = mysqli_query($this->instanceDB, $query2);
+        $query = "SELECT bet_id FROM bets WHERE user_id=2 AND game_id=$gameId ORDER BY bet_id ASC";
+        $result = mysqli_query($this->instanceDB, $query);
 
         while ($row = mysqli_fetch_assoc($result)) {
             // print_r($row);
@@ -64,17 +61,16 @@ class confirmBet
     }
 
     /**
-     *
+     * @return bool
      */
     public function saveBetAmount()
     {
         $betAmount = intval($_GET['amount']);
         $arg = $this->getBetId();
+        $explode = explode(',', $arg, -1);
+        $lastBetId = end($explode);
 
-
-        $saveBalance = "INSERT INTO balance (amount,user_id,bet_id) VALUES ($betAmount,2,$arg)";
-//        $query2 = "SELECT amount FROM balance WHERE user_id=2 AND bet_id in ($arg)";
-
+        $saveBalance = "INSERT INTO balance (amount,user_id,bet_id) VALUES ($betAmount,2,$lastBetId)";
         if (mysqli_query($this->instanceDB, $saveBalance)) {
             return true;
         } else {
