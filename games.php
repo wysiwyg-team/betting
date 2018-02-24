@@ -105,12 +105,48 @@ if (isset($_GET['q'])) {
     $(document).ready(function () {
         $("#spinner").hide();
 
-        $(".play").click(function () {
-            $(".hideModal").hide(800);
+        $('#play').click(function (e) {
 
-            $("#modalTest").show(1000);
-        });
-    });
+                var amount = $('#amount').val();
+                var gamePrice = $('#gamePrice').val();
+
+
+                if (amount <= gamePrice) {
+                    alert('amount played too less');
+                    e.preventDefault();
+                }
+
+                //chk bal
+                if (checkbalance(amount, 2)) {
+                    return true;
+                }
+                alert('balance too less');
+                return false;
+            }
+        );
+
+        function checkbalance(amount, user_id) {
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: 'check.php',
+                    data: (amount + user_id),
+                    async: false,
+                    success: function (response) {
+                        if (response.data.status !== 0) {
+                            return true;
+                        }
+                        return false;
+
+                    },
+                    dataType: 'json'
+                }
+            )
+
+
+        }
+    })
 </script>
 
 </body>

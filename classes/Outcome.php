@@ -98,16 +98,22 @@ class Outcome
      */
     public function win()
     {
+
+
+
         $bet = new confirmBet(db::getConnection());
         $arg = $bet->getBetId();
+        $explode = explode(',', $arg, -1);
+        $lastBetId = end($explode);
+
 
         $gamePrice = intval($_GET['gamePrice']);
         $gameBenefit = intval($_GET['gameBenefit']);
 
         echo '<h1 class="text-center"><span>You Win</span></h1><h4>Game Played: ' . $this->getGameName() . '</h4><h4>Bet Amount: ' . $this->getAmountInvested() . '</h4> <div class="mt-5 p-2">
                                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Continue</button>
-                    <button type="submit" class="btn btn-warning">Withdraw</button>
+                    <button type="submit" class="btn btn-success" onClick="document.location.href=\'games.php\'">Continue</button>
+                    <button type="submit" class="btn btn-warning" onClick="document.location.href=\'index.php?q=logout\'">Withdraw</button>
                     <button type="submit" class="btn btn-danger" onClick="document.location.href=\'index.php\'">Close</button>
                     </div></div>';
 
@@ -115,7 +121,7 @@ class Outcome
         echo '<p>Your total balance is now: ' . $total . '</p>';
 
         $mysqli = db::getConnection();
-        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id IN ($arg)";
+        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id =$lastBetId";
         if (mysqli_query($mysqli, $query)) {
             return true;
         } else {
@@ -138,6 +144,8 @@ class Outcome
     {
         $bet = new confirmBet(db::getConnection());
         $arg = $bet->getBetId();
+        $explode = explode(',', $arg, -1);
+        $lastBetId = end($explode);
 
         echo '<h1 class="text-center"><span>You Lose</span></h1><h4>Game Played: ' . $this->getGameName() . '</h4><h4>Bet Amount: ' . $this->getAmountInvested() . '</h4> <div class="mt-5 p-2">
               <div class="modal-footer"><button type="submit" class="btn btn-warning">Withdraw</button><button type="submit" class="btn btn-danger" onClick="document.location.href=\'index.php\'">Close</button>
@@ -147,7 +155,7 @@ class Outcome
         echo '<p>Your total balance is now: ' . $total . '</p>';
 
         $mysqli = db::getConnection();
-        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id IN ($arg)";
+        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id=$lastBetId";
         if (mysqli_query($mysqli, $query)) {
             return true;
         } else {

@@ -65,6 +65,16 @@ class User
         return $_SESSION['login'];
     }
 
+    public function get_userId($user_id){
+        $mysqli = db::getConnection();
+
+        $sql3="SELECT user_id FROM users WHERE user_id = $user_id";
+            $result = mysqli_query($mysqli,$sql3);
+            $user_data = mysqli_fetch_array($result);
+            echo $user_data['user_id'];
+        }
+
+
     /**
      * logout
      */

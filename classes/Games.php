@@ -48,6 +48,7 @@ class Games
                       <input type="hidden" id="gamePrice" name="gamePrice" value="' . $gamePrice . '">
                      <input type="hidden" id="gameBenefit" name="gameBenefit" value="' . $gameBenefit . '">
                      <div class="form-group"><label for="amount">Amount: </label>
+                     
                       <input type="text" class="form-control amount" id="amount"  name="amount" placeholder="Minimum bet is $' . $gamePrice . '">
                     </div></div><div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
