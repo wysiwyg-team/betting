@@ -103,11 +103,13 @@ if (isset($_GET['q'])) {
 <script>
 
     $(document).ready(function () {
-        $("#spinner").hide();
 
-        $('#play').click(function (e) {
-                var amount = $('#amount').val();
-                var gamePrice = $('#gamePrice').val();
+        $('.play').click(function (e) {
+                var amount = $('.amount').val();
+                var gamePrice = $('.gamePrice').val();
+                alert(amount);
+                alert(gamePrice);
+
 
 
                 if (amount < gamePrice) {
@@ -131,7 +133,7 @@ if (isset($_GET['q'])) {
                     type: "POST",
                     url: 'check.php',
                     data: (amount + user_id),
-                    async: false,
+                    // async: false,
                     success: function (response) {
                         if (response.data.status !== 0) {
                             return true;

@@ -20,7 +20,7 @@ class check
     public function checkBalance()
     {
         $mysqli = db::getConnection();
-        $amt = $_POST['amount'];
+        $amountPlayed = $_GET['amount'];
         $query = "SELECT amount FROM balance WHERE user_id=$currentUserID ORDER BY balance_id DESC LIMIT 1";
 
         $result = mysqli_query($mysqli, $query);
