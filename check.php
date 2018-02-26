@@ -21,16 +21,14 @@ class check
     {
         $mysqli = db::getConnection();
         $amt = $_POST['amount'];
-        $user_id = $_POST['user_id'];
         $query = "SELECT amount FROM balance WHERE user_id=$currentUserID ORDER BY balance_id DESC LIMIT 1";
 
         $result = mysqli_query($mysqli, $query);
         while ($row = mysqli_fetch_array($result)) {
-            echo '<br>';
-            $balance = $row['amount'];
+            $balanceAvailable = $row['amount'];
         }
 
-        if ($amt > $balance) {
+        if ($amt > $balanceAvailable) {
 
             $outcome = 0;
         } else {
