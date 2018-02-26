@@ -17,8 +17,6 @@ use app\User;
 
 include 'vendor/autoload.php';
 
-$games = new Games();
-$balance = new Balance();
 $bet = new confirmBet(db::getConnection());
 $outcome = new Outcome();
 $user = new User();
@@ -53,11 +51,12 @@ if (isset($_GET['q'])) {
         <div class="col-md-12">
             <?php
             $outcome->getCounter();
+
             $bet->saveBet();
 
             $bet->saveBetAmount();
-            $bet->getBetId();
 
+            $bet->getBetId();
             ?>
         </div>
     </div>

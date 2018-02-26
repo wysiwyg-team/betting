@@ -12,18 +12,16 @@ include 'vendor/autoload.php';
 use app\User;
 $user = new User();
 
-
 if (isset($_REQUEST['submit'])) {
     extract($_REQUEST);
-    $login = $user->check_login($username, $password);
+    $login = $user->isUserValid($username, $password);
     if ($login) {
+
         header("location:index.php");
     } else {
         echo 'Wrong username or password';
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -40,23 +38,8 @@ if (isset($_REQUEST['submit'])) {
 
     <!-- Bootstrap core CSS -->
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <style>
-        body {
-            padding-top: 54px;
-        }
-
-        @media (min-width: 992px) {
-            body {
-                padding-top: 56px;
-            }
-        }
-
-    </style>
-
+    <link href="assets/bootstrap/css/style.css" rel="stylesheet">
 </head>
-
 <body>
 
 <!-- Navigation -->

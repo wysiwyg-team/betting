@@ -12,7 +12,7 @@ class score
 {
 
     /**
-     * get score of players order by highest to lowest
+     * Get score of players order by highest to lowest
      */
     public function getDetails()
     {
@@ -23,7 +23,6 @@ class score
 
         $return_array = array();
         while ($row = mysqli_fetch_array($result)) {
-
             $row_array['outcomeID'] = $row['outcomeID'];
             $row_array['userID'] = $row['userID'];
             $row_array['status'] = $row['status'];
@@ -33,6 +32,7 @@ class score
             array_push($return_array, $row_array);
         }
         $json_data = json_encode($return_array);
+
         print $json_data;
 
     }

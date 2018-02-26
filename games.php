@@ -19,9 +19,7 @@ use app\User;
 
 $games = new Games();
 $balance = new Balance();
-$bet = new confirmBet(db::getConnection());
 $user = new User();
-
 
 $user_id = $_SESSION['user_id'];
 if (!$user->get_session()) {
@@ -92,6 +90,8 @@ if (isset($_GET['q'])) {
         <?php
         $games->fetchGames();
         $balance->getAmount();
+        $user = new User();
+        $currentUserID = $user->getUserId();
         ?>
     </div>
 </div>

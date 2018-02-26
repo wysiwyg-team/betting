@@ -1,4 +1,5 @@
 <?php
+
 namespace app;
 
 use mysqli_sql_exception;

@@ -24,8 +24,6 @@ if (isset($_GET['q'])) {
     $user->logout();
     header("location:login.php");
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -82,6 +80,10 @@ if (isset($_GET['q'])) {
             <h1 class="mt-5 mb-5">Betting System </h1>
         </div>
     </div>
+
+    <?php
+    $id = $user->getUserID();
+    ?>
 
     <div class="row">
         <div class="col-6">

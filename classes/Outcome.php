@@ -15,6 +15,7 @@ class Outcome
 {
     /**
      * @return bool
+     * Add counter to the popularity of a game each time it is played
      */
     public function getCounter()
     {
@@ -23,6 +24,8 @@ class Outcome
 
         $query = "UPDATE game SET popularity=popularity+5 WHERE game_id=$gameId";
         if (mysqli_query($mysqli, $query)) {
+
+
             return true;
         } else {
             echo 'error';
@@ -31,7 +34,7 @@ class Outcome
     }
 
     /**
-     * get the outcome of the game=> win or lose
+     * get the outcome of the game => either win or lose
      */
     public function outcome()
     {
@@ -49,6 +52,7 @@ class Outcome
             $saveOutcome = "INSERT INTO outcome (outcome_status,score,bet_id) VALUES('win',10,$lastBetId)";
             mysqli_query($mysqli, $saveOutcome);
 
+
             $this->win();
 
         } else {
@@ -60,6 +64,8 @@ class Outcome
             $mysqli = db::getConnection();
             $saveOutcome = "INSERT INTO outcome (outcome_status,score,bet_id) VALUES('lose',0,$lastBetId)";
             mysqli_query($mysqli, $saveOutcome);
+
+
             $this->lose();
 
         }
@@ -67,7 +73,7 @@ class Outcome
 
     /**
      * @return mixed
-     * return name of game played
+     * return name of current game played
      */
     public function getGameName()
     {
@@ -78,28 +84,32 @@ class Outcome
         $result = mysqli_query($mysqli, $query);
         while ($row = mysqli_fetch_row($result)) {
             echo '<br>';
+
+
             return $row[0];
         }
     }
 
     /**
      * @return int
-     * return amount bet played
+     * return amount bet played from url
      */
     public function getAmountInvested()
     {
         $betAmount = intval($_GET['amount']);
+
+
         return $betAmount;
     }
 
     /**
      * @return bool
-     * function if win
+     * function if game outcome is WIN
      */
     public function win()
     {
-
-
+        $user = new User();
+        $currentUserID = $user->getUserId();
 
         $bet = new confirmBet(db::getConnection());
         $arg = $bet->getBetId();
@@ -121,8 +131,10 @@ class Outcome
         echo '<p>Your total balance is now: ' . $total . '</p>';
 
         $mysqli = db::getConnection();
-        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id =$lastBetId";
+        $query = "UPDATE balance SET amount=$total WHERE user_id=$currentUserID AND bet_id =$lastBetId";
         if (mysqli_query($mysqli, $query)) {
+
+
             return true;
         } else {
             echo 'error';
@@ -138,10 +150,13 @@ class Outcome
 
     /**
      * @return bool
-     * function if lose
+     * function if game outcome is LOSE
      */
     public function lose()
     {
+        $user = new User();
+        $currentUserID = $user->getUserId();
+
         $bet = new confirmBet(db::getConnection());
         $arg = $bet->getBetId();
         $explode = explode(',', $arg, -1);
@@ -155,8 +170,9 @@ class Outcome
         echo '<p>Your total balance is now: ' . $total . '</p>';
 
         $mysqli = db::getConnection();
-        $query = "UPDATE balance SET amount=$total WHERE user_id=2 AND bet_id=$lastBetId";
+        $query = "UPDATE balance SET amount=$total WHERE user_id=$currentUserID AND bet_id=$lastBetId";
         if (mysqli_query($mysqli, $query)) {
+
             return true;
         } else {
             echo 'error';
@@ -167,6 +183,7 @@ class Outcome
         $lastBetId = end($explode);
         $saveOutcome = "INSERT INTO outcome (outcome_status,bet_id) VALUES('lose',$lastBetId)";
         mysqli_query($mysqli, $saveOutcome);
+
     }
 
 }
