@@ -179,8 +179,8 @@ if (isset($_GET['q'])) {
 
 <script>
 
-    const jsonScore = "http://localhost/betting/betting/score.php";
-    const jsonGames = "http://localhost/betting/betting/favouriteGames.php";
+    const jsonScore = "score.php";
+    const jsonGames = "favouriteGames.php";
 
     const vueScore = new Vue({
         el: '#app',
