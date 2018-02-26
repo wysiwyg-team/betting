@@ -110,35 +110,6 @@ class User
         $this->user_id = $user_id;
     }
 
-//    /**
-//     * @param $username
-//     * @param $password
-//     * @return bool
-//     */
-//    public function login($username, $password)
-//    {
-//        $mysqli = db::getConnection();
-//        $query = "SELECT * from users WHERE user_name='$username' AND password='$password'";
-//        $result = mysqli_query($mysqli, $query);
-//        $row = mysqli_fetch_array($result);
-//        $count_row = $result->num_rows;
-//        if ($count_row == 1) {
-//            $_SESSION['login'] = true;
-//            $_SESSION['user_id'] = $row['user_id'];
-//
-//            $this->user_id = $row['user_id'];
-//            $this->username = $row['user_name'];
-//            $this->user_status = $row['user_status'];
-//            $this->password = $row['password'];
-//
-//            return true;
-//        } else {
-//
-//
-//            return false;
-//        }
-//    }
-
     /**
      * @param $username
      * @param $password

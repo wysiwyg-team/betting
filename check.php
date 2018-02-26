@@ -25,11 +25,10 @@ class check
 
         $result = mysqli_query($mysqli, $query);
         while ($row = mysqli_fetch_array($result)) {
-            echo '<br>';
-            $balance = $row['amount'];
+            $balanceAvailable = $row['amount'];
         }
 
-        if ($amt > $balance) {
+        if ($amt > $balanceAvailable) {
 
             $outcome = 0;
         } else {
