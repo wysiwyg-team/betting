@@ -106,18 +106,17 @@ if (isset($_GET['q'])) {
         $("#spinner").hide();
 
         $('#play').click(function (e) {
-
                 var amount = $('#amount').val();
                 var gamePrice = $('#gamePrice').val();
 
 
-                if (amount <= gamePrice) {
+                if (amount < gamePrice) {
                     alert('amount played too less');
                     e.preventDefault();
                 }
 
                 //chk bal
-                if (checkbalance(amount, 2)) {
+                if (checkbalance(amount, <?php echo $currentUserID ?>)) {
                     return true;
                 }
                 alert('balance too less');

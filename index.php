@@ -88,7 +88,7 @@ if (isset($_GET['q'])) {
     <div class="row">
         <div class="col-6">
             <div class="bg-light">
-                <h2 class="text-center">Favourite Games</h2>
+                <h2 class="text-center">Favorite Games</h2>
                 <table class="table table-bordered" id="favGames">
                     <thead>
                     <tr>
@@ -129,7 +129,7 @@ if (isset($_GET['q'])) {
 
         <div class="col-6">
             <div class="bg-light">
-                <h2 class="text-center">Top Scorer</h2>
+                <h2 class="text-center">Live Top Scorers</h2>
                 <table class="table table-bordered" id="app">
                     <thead>
                     <tr>
