@@ -99,6 +99,7 @@ class User
      */
     public function getUserId()
     {
+
         return $this->user_id;
     }
 
