@@ -80,28 +80,52 @@ include 'layout/menu.php';
 <script>
 
     $(document).ready(function () {
+//        $('#play').click.each(function(){
+//            var plays = $('#play').attr('data-play');
+//            alert(plays);
+//
+//        });
 
-        $('.play').click(function (e) {
+        $('.play').each(function () {
+            var $this = $(this);
+            $this.on("click", function () {
+//                alert($(this).data('play'));
                 var amount = $('.amount').val();
-                var gamePrice = $('.gamePrice').val();
-                alert(amount);
-                alert(gamePrice);
+
+                $('.gamePrice').each(function () {
+                    var price = $('#gamePrice').attr('data-gamePrice');
+                    alert(price);
+
+                });
+            });
+            return false;
+        });
 
 
+//        $('.play').click(function (e) {
+////                var gamePrice = $('#gamePrice').data('gamePrice');
 
-                if (amount < gamePrice) {
-                    alert('amount played too less');
-                    e.preventDefault();
-                }
-
-                //chk bal
-                if (checkbalance(amount, <?php echo $currentUserID ?>)) {
-                    return true;
-                }
-                alert('balance too less');
-                return false;
-            }
-        );
+////                var show = gamePrice.data("gamePrice");
+////                alert(gamePrice.val("gamePrice",show));
+//
+////                alert(amount);
+////                alert(show);
+//
+//
+//
+//                if (amount < gamePrice) {
+//                    alert('amount played too less');
+//                    e.preventDefault();
+//                }
+//
+//                //chk bal
+//                if (checkbalance(amount, <?php //echo $currentUserID ?>//)) {
+//                    return true;
+//                }
+//                alert('balance too less');
+//                return false;
+//            }
+//        );
 
         function checkbalance(amount, user_id) {
 

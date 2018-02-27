@@ -7,7 +7,6 @@
  */
 
 namespace app;
-include 'vendor/autoload.php';
 $user = new User();
 $currentUserID = $user->getUserId();
 
@@ -28,7 +27,7 @@ class check
             $balanceAvailable = $row['amount'];
         }
 
-        if ($amt > $balanceAvailable) {
+        if ($amountPlayed > $balanceAvailable) {
 
             $outcome = 0;
         } else {

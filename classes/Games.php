@@ -44,14 +44,14 @@ class Games
                      </button></div><div class="modal-body">
                      <form action="confirmBet.php" method="get">
                      <input type="hidden" id="gameId" name="gameId" value="' . $this->gameID . '">
-                      <input type="hidden" id="gamePrice" class="gamePrice" name="gamePrice" value="' . $gamePrice . '">
+                      <input type="hidden" id="gamePrice" data-gamePrice="'.$gamePrice.'" class="gamePrice" name="gamePrice" value="' . $gamePrice . '">
                      <input type="hidden" id="gameBenefit" name="gameBenefit" value="' . $gameBenefit . '">
                      <div class="form-group"><label for="amount">Amount: </label>
                      
                       <input type="text" class="form-control amount" id="amount"  name="amount" placeholder="Minimum bet is $' . $gamePrice . '">
                     </div></div><div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" id="play" name="play" class="play">Play</button>
+                    <button type="submit" id="play" data-play="'.$gamePrice.'" name="play" class="play">Play</button>
                     </form></div></div></div></div>';
 
         }
